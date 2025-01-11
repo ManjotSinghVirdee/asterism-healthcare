@@ -1,4 +1,26 @@
+@font-face {
+  font-family: 'Assistant';
+  src: url('/fonts/Assistant-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Assistant';
+  src: url('/fonts/Assistant-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
+  /* font variables */
+  --font-body-family: 'Assistant', sans-serif;
+  --font-heading-family: 'Assistant', sans-serif;
+  
+  /* Your existing variables */
+  --page-width: 120rem;
   --aside-width: 400px;
   --cart-aside-summary-height-with-discount: 300px;
   --cart-aside-summary-height: 250px;
@@ -6,6 +28,35 @@
   --header-height: 64px;
   --color-dark: #000;
   --color-light: #fff;
+}
+
+/* Add these base styles */
+body, 
+body * {
+  font-family: var(--font-body-family);
+  -webkit-font-smoothing: antialiased;
+}
+
+[style*="font-weight: bold"] {
+  font-weight: 400 !important;
+}
+
+/* Only allow bold on active nav items if desired */
+.active.header-menu-item {
+  font-weight: 400 !important;
+}
+
+/* Add this new class */
+.page-width {
+  max-width: var(--page-width);
+  margin: auto;
+  padding: 27px 60px;
+}
+
+@media screen and (max-width: 768px) {
+  .page-width {
+    padding: 0 20px;
+  }
 }
 
 img {
@@ -53,7 +104,6 @@ aside header h3 {
 }
 
 aside header .close {
-  font-weight: bold;
   opacity: 0.8;
   text-decoration: none;
   transition: all 200ms;
@@ -95,7 +145,6 @@ aside li {
   right: 0;
   top: 0;
   transition: opacity 400ms ease-in-out;
-  transition: opacity 400ms;
   visibility: hidden;
   z-index: 10;
 }
@@ -162,7 +211,7 @@ button.reset:hover:not(:has(> *)) {
   background: #fff;
   display: flex;
   height: var(--header-height);
-  padding: 0 1rem;
+  padding: 0 60px; /* Updated padding */
   position: sticky;
   top: 0;
   z-index: 1;
@@ -190,8 +239,13 @@ button.reset:hover:not(:has(> *)) {
   }
 }
 
-.header-menu-item {
-  cursor: pointer;
+.header-menu-item,
+.footer-menu-item,
+.text-lg,
+title, h1, h2, h3, h4, h5, h6,
+p, a, span {
+  font-family: 'Assistant', sans-serif !important;
+  font-weight: 400;
 }
 
 .header-ctas {
@@ -209,6 +263,13 @@ button.reset:hover:not(:has(> *)) {
 .footer {
   background: var(--color-dark);
   margin-top: auto;
+  padding: 27px 60px; /* Added padding */
+}
+
+.footer h2,
+.grid h2 {
+  font-family: var(--font-heading-family) !important;
+  font-weight: 400 !important;  /* Forces normal weight */
 }
 
 .footer-menu {

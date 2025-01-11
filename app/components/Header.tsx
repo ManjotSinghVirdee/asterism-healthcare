@@ -1,5 +1,6 @@
 import {Suspense} from 'react';
 import {Await, NavLink, useAsyncValue} from '@remix-run/react';
+import {Image} from '@shopify/hydrogen';
 import {
   type CartViewPayload,
   useAnalytics,
@@ -27,7 +28,15 @@ export function Header({
   return (
     <header className="header">
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+        <div className="flex items-center">
+          <Image 
+            src="/images/ASTERISM_HEALTHCARE_GRP_GK_Logo_20150828_Diamo.jpg"
+            alt={shop.name}
+            width={130}
+            height={44}
+            className="h-11 w-auto"
+          />
+        </div>
       </NavLink>
       <HeaderMenu
         menu={menu}

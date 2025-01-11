@@ -17,59 +17,94 @@ export function Footer({
     <Suspense>
       <Await resolve={footerPromise}>
         {(footer) => (
-          <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
-              <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
-                publicStoreDomain={publicStoreDomain}
-              />
-            )}
+          <footer className="border-t border-gray-200">
+            <div className="page-width py-8 pt-[20px] pb-[20px]">
+              {/* Main Footer Content - Two Columns */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                {/* Quick Links Column */}
+                <div>
+                  <h2 className="text-lg mb-4">Quick links</h2>
+                  <ul className="space-y-2">
+                    <li>
+                      <NavLink
+                        to="/search"
+                        style={activeLinkStyle}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        Search
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Company Information Column */}
+                <div>
+                  <h2 className="text-lg mb-4">Asterism Healthcare</h2>
+                  <div className="space-y-2 text-gray-600">
+                    <p>
+                      <a
+                        href="mailto:pabel@asterism-healthcare.com"
+                        className="hover:text-gray-900"
+                      >
+                        pabel@asterism-healthcare.com
+                      </a>
+                    </p> 
+                    <br></br>
+                    <p>USA +1 (845) 320-2251</p>
+                    <p>Japan +81 (6) 6633-3711</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Menu - Policies */}
+              {footer?.menu && header.shop.primaryDomain?.url && (
+                <div className="border-t border-gray-200 pt-8">
+                  <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                    <div className="text-sm text-gray-500">
+                      &copy; {new Date().getFullYear()} Asterism Healthcare
+                    </div>
+                    <nav className="footer-menu flex space-x-6" role="navigation">
+                      {(footer.menu || FALLBACK_FOOTER_MENU).items.map((item) => {
+                        if (!item.url) return null;
+                        const url =
+                          item.url.includes('myshopify.com') ||
+                          item.url.includes(publicStoreDomain) ||
+                          item.url.includes(header.shop.primaryDomain.url)
+                            ? new URL(item.url).pathname
+                            : item.url;
+                        const isExternal = !url.startsWith('/');
+                        return isExternal ? (
+                          <a
+                            href={url}
+                            key={item.id}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            className="text-sm text-gray-500 hover:text-gray-900"
+                          >
+                            {item.title}
+                          </a>
+                        ) : (
+                          <NavLink
+                            end
+                            key={item.id}
+                            prefetch="intent"
+                            style={activeLinkStyle}
+                            to={url}
+                            className="text-sm text-gray-500 hover:text-gray-900"
+                          >
+                            {item.title}
+                          </NavLink>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                </div>
+              )}
+            </div>
           </footer>
         )}
       </Await>
     </Suspense>
-  );
-}
-
-function FooterMenu({
-  menu,
-  primaryDomainUrl,
-  publicStoreDomain,
-}: {
-  menu: FooterQuery['menu'];
-  primaryDomainUrl: FooterProps['header']['shop']['primaryDomain']['url'];
-  publicStoreDomain: string;
-}) {
-  return (
-    <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
-        if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
-        return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
-            {item.title}
-          </NavLink>
-        );
-      })}
-    </nav>
   );
 }
 
@@ -124,6 +159,6 @@ function activeLinkStyle({
 }) {
   return {
     fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
+    color: isPending ? 'grey' : 'inherit',
   };
 }

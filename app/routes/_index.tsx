@@ -56,11 +56,33 @@ function loadDeferredData({context}: LoaderFunctionArgs) {
 }
 
 export default function Homepage() {
-  const data = useLoaderData<typeof loader>();
   return (
-    <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} />
+    <div>
+      {/* Banner Section */}
+      <section className="w-full relative">
+        <div className="page-width">
+          <div className="relative">
+            <Image 
+              src="images/ASTERISM_HEALTHCARE_GRP_GK_Logo_20150828_Diamo.jpg"
+              alt="Asterism Healthcare"
+              width={1920}
+              height={650}
+              className="w-full h-auto"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* You can add additional content sections below */}
+      {/* For example:
+      <section className="py-8 md:py-12">
+        <div className="page-width">
+          <h2>Welcome to Asterism Healthcare</h2>
+          <p>Your content here...</p>
+        </div>
+      </section>
+      */}
     </div>
   );
 }
